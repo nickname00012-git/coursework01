@@ -3,12 +3,12 @@ public class Employee {
     private String firstName;
     private String middleName;
     private String lastName;
-    private String department;
+    private int department;
     private int id;
-    private int salary;
+    private double salary;
 
 
-    public Employee(String fName, String mName, String lName, String employeeDepartment, int employeeSalary) {
+    public Employee(String fName, String mName, String lName, int employeeDepartment, int employeeSalary) {
         this.id = idCounter;
         this.firstName = fName;
         this.middleName = mName;
@@ -20,7 +20,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "ИД: " + this.id + ", " + this.firstName + " " + this.middleName + " " + this.lastName + ", " + this.department + ", ЗП: " + this.salary + " р.";
+        return "ИД: " + this.id + ", " + this.firstName + " " + this.middleName + " " + this.lastName + ", " + "Отдел " + this.department + ", ЗП: " + this.salary + " р.";
     }
 
     // Исправить метод
@@ -67,19 +67,32 @@ public class Employee {
         return this.id;
     }
 
-    public int getSalary() {
+    public double getSalary() {
         return this.salary;
     }
 
-    public String getDepartment() {
+    public int getDepartment() {
         return this.department;
     }
 
-    public void setSalary(int newSalary) {
+    public void setSalary(double newSalary) {
         this.salary = newSalary;
     }
 
-    public void setSalary(String newDepartment) {
+    public void setDepartment(int newDepartment) {
         this.department = newDepartment;
     }
+
+    public void setFirstName(String newName) {
+        this.firstName = newName;
+    }
+
+    public void setMiddleName(String newName) {
+        this.middleName = newName;
+    }
+
+    public void setLastName(String newName) {
+        this.lastName = newName;
+    }
+
 }
