@@ -1,6 +1,8 @@
 public class Main {
+    private static Employee[] employees = new Employee[10];
+
     public static void main(String[] args) {
-        Employee[] employees = new Employee[10];
+
 //        Инициализация и заполнение значений массива
         employees[0] = new Employee("Игорь", "Петрович", "Стрельников01", 1, 77000);
         employees[1] = new Employee("Геннадий", "Петрович", "Стрельников02", 2, 77010);
@@ -23,10 +25,12 @@ public class Main {
         System.out.println("Сумма затрат на ЗП в месяц: " + sumOfSalary(employees) + " р.");
         printSeparator();
 
-        System.out.println("Минимальная ЗП в месяц среди работников: " + minOfSalary(employees) + " р.");
+        System.out.println("Минимальная ЗП в месяц у сотрудника:");
+        printEmployee(employeeWithMinSalary(employees), 1);
         printSeparator();
 
-        System.out.println("Максимальная ЗП в месяц среди работников: " + maxOfSalary(employees) + " р.");
+        System.out.println("Максимальная ЗП в месяц у сотрудника:");
+        printEmployee(employeeWithMaxSalary(employees), 1);
         printSeparator();
 
         System.out.println("Средняя ЗП в месяц: " + sumOfSalary(employees)/ employees.length + " р.");
@@ -34,7 +38,7 @@ public class Main {
 
         System.out.println("ФИО всех сотрудников:");
         for (int i = 0; i < employees.length; i++) {
-            System.out.println(employees[i].getLastName() + " " + employees[i].getFirstName() + " " + employees[i].getMiddleName());
+            printEmployee(employees[i], 2);
         }
         printSeparator();
 
@@ -44,22 +48,24 @@ public class Main {
         employees[id].setFirstName("Николай");
         employees[id].setMiddleName("Александрович");
         employees[id].setLastName("Колесов");
-        System.out.println(employees[id].toString());
+        System.out.println(employees[id]);
         printSeparator();
 
         int salaryPercentIncrement = 12;
         System.out.println("Индексация зарплаты всех сотрудников на " + salaryPercentIncrement + "%:");
         for (int i = 0; i < employees.length; i++) {
             increaseSalary(employees[i], salaryPercentIncrement);
-            System.out.println("ИД " + employees[i].getId() + ": " + employees[i].getSalary() + " р., " + employees[i].getLastName() + ", отедел " + employees[i].getDepartment());
+            System.out.println(employees[i]);
         }
         printSeparator();
 
         int department = 5;
-        System.out.println("Минимальная ЗП в месяц среди работников в отделе " + department + ": " + minOfSalaryInDepartment(employees, department) + " р.");
+        System.out.println("Сотрудник с минимальной ЗП в месяц в отделе " + department + ":");
+        printEmployee(employeeWithMinSalaryInDepartment(employees, department), 1);
         printSeparator();
 
-        System.out.println("Максимальная ЗП в месяц среди работников в отделе " + department + ": " + maxOfSalaryInDepartment(employees, department) + " р.");
+        System.out.println("Сотрудник с максимальной ЗП в месяц в отделе " + department + ":");
+        printEmployee(employeeWithMaxSalaryInDepartment(employees, department), 1);
         printSeparator();
 
         System.out.println("Средняя ЗП в месяц в отделе " + department + ": " + (sumOfSalaryInDepartment(employees, department) / numberOfEmployeesInDepartment(employees, department)) + " р.");
@@ -82,7 +88,6 @@ public class Main {
         System.out.println("Сотрудники с ЗП равной или больше чем " + salaryToCheck + " р.:");
         listSalaryEqualOrMoreThan(employees, salaryToCheck);
         printSeparator();
-
     }
 
 //    **************
@@ -108,50 +113,49 @@ public class Main {
         return sum;
     }
 
-    public static double minOfSalaryInDepartment(Employee[] employees, int department) {
-        double salary = 2_000_000_000;
+    public static Employee employeeWithMinSalaryInDepartment(Employee[] employees, int department) {
+        Employee employeeWithMinSalary = null;
         for (int i = 0; i < employees.length; i++) {
             if (department == employees[i].getDepartment()) {
-                if (salary > employees[i].getSalary()) {
-                    salary = employees[i].getSalary();
+                if (employeeWithMinSalary == null || employees[i].getSalary() < employeeWithMinSalary.getSalary()) {
+                    employeeWithMinSalary = employees[i];
                 }
             }
         }
-        return salary;
+        return employeeWithMinSalary;
     }
 
-    public static double minOfSalary(Employee[] employees) {
-        double salary = employees[0].getSalary();
+    public static Employee employeeWithMinSalary(Employee[] employees) {
+        Employee employeeWithMinSalary = null;
         for (int i = 1; i < employees.length; i++) {
-            if (salary > employees[i].getSalary()) {
-                salary = employees[i].getSalary();
+            if (employeeWithMinSalary == null || employees[i].getSalary() < employeeWithMinSalary.getSalary()) {
+                employeeWithMinSalary = employees[i];
             }
         }
-        return salary;
+        return employeeWithMinSalary;
     }
 
-    public static double maxOfSalaryInDepartment(Employee[] employees, int department) {
-        double salary = -1;
+    public static Employee employeeWithMaxSalaryInDepartment(Employee[] employees, int department) {
+        Employee employeeWithMaxSalary = null;
         for (int i = 0; i < employees.length; i++) {
             if (department == employees[i].getDepartment()) {
-                if (salary < employees[i].getSalary()) {
-                    salary = employees[i].getSalary();
+                if (employeeWithMaxSalary == null || employees[i].getSalary() > employeeWithMaxSalary.getSalary()) {
+                    employeeWithMaxSalary = employees[i];
                 }
             }
         }
-        return salary;
+        return employeeWithMaxSalary;
     }
 
-    public static double maxOfSalary(Employee[] employees) {
-        double salary = employees[0].getSalary();
+    public static Employee employeeWithMaxSalary(Employee[] employees) {
+        Employee employeeWithMaxSalary = null;
         for (int i = 1; i < employees.length; i++) {
-            if (salary < employees[i].getSalary()) {
-                salary = employees[i].getSalary();
+            if (employeeWithMaxSalary == null || employees[i].getSalary() > employeeWithMaxSalary.getSalary()) {
+                employeeWithMaxSalary = employees[i];
             }
         }
-        return salary;
+        return employeeWithMaxSalary;
     }
-
     public static int numberOfEmployeesInDepartment(Employee[] employees, int department) {
         int emplCounter = 0;
         for (int i = 0; i < employees.length; i++) {
@@ -165,7 +169,7 @@ public class Main {
     public static void listEmployeesInDepartment(Employee[] employees, int department) {
         for (int i = 0; i < employees.length; i++) {
             if (department == employees[i].getDepartment()) {
-                printEmployee(employees[i]);
+                printEmployee(employees[i], 1);
             }
         }
     }
@@ -185,19 +189,30 @@ public class Main {
     public static void listSalaryLessThan(Employee[] employees, double someSalary) {
         for (int i = 0; i < employees.length; i++) {
             if (employees[i].getSalary() < someSalary) {
-                printEmployee(employees[i]);
+                printEmployee(employees[i], 1);
             }
         }
     }
     public static void listSalaryEqualOrMoreThan(Employee[] employees, double someSalary) {
         for (int i = 0; i < employees.length; i++) {
             if (employees[i].getSalary() >= someSalary) {
-                printEmployee(employees[i]);
+                printEmployee(employees[i], 1);
             }
         }
     }
-    public static void printEmployee(Employee employee) {
-        System.out.println("ИД: " + employee.getId() + ", " + employee.getLastName() + " " + employee.getFirstName() + " " + employee.getMiddleName() + ", " + employee.getSalary() + " р.");
+
+    public static void printEmployee(Employee employee, int printmode) {
+//        printmode: 1 - печать без отдела
+//        printmode: 2 - печать только ФИО
+//        printmode: 3 - печать всех данных
+
+        if (printmode == 1) {
+            System.out.println("ИД: " + employee.getId() + ", " + employee.getLastName() + " " + employee.getFirstName() + " " + employee.getMiddleName() + ", " + employee.getSalary() + " р.");
+        } else if (printmode == 2) {
+            System.out.println(employee.getLastName() + " " + employee.getFirstName() + " " + employee.getMiddleName());
+        } else if (printmode == 3) {
+            System.out.println(employee);
+        }
     }
 
     public static void printSeparator() {

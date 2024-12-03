@@ -1,5 +1,5 @@
 public class Employee {
-    public static int idCounter = 1;
+    private static int idCounter = 1;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -62,7 +62,6 @@ public class Employee {
     public String getLastName() {
         return this.lastName;
     }
-
     public int getId() {
         return this.id;
     }
