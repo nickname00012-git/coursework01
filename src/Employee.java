@@ -20,7 +20,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "ИД: " + this.id + ", " + this.firstName + " " + this.middleName + " " + this.lastName + ", " + "Отдел " + this.department + ", ЗП: " + this.salary + " р.";
+        return "ИД: " + this.id + ", " + this.lastName + " " + this.firstName + " " + this.middleName + ", " + "Отдел " + this.department + ", ЗП: " + this.salary + " р.";
     }
 
     // Исправить метод
